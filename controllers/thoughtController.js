@@ -96,8 +96,25 @@ async createReaction(req, res) {
   } catch (err) {
     console.error(err);
   }
-}
+},
 //  delete reaction
 
+async deleteReaction(req, res) {
+ try {
+    const reaction = await Thought.findOneAndUpdate(
+      { _id: req.params.thoughtId },
+      { $pull: { reactions: { _id: req.params.reactionId } } },
+      { new: true }
+    );
 
+    if (!reaction) {
+      return res.status(404).json({ message: 'No reaction with this ID!' });
+    }
+
+    res.json(`One reaction deleted`);
+ } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Server error deleting reaction' });
+ }
+}
 };

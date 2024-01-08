@@ -77,10 +77,10 @@ const ThoughtSchema = new Schema(
   }
 );
 
-// Create a virtual property `ReactionCount` that gets the amount of reactions
 
 
-// Initialize our Post model
+
+// Initialize our Thought model
 const Thought = model('Thought', ThoughtSchema);
 
 module.exports = Thought;
