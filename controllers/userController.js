@@ -25,8 +25,8 @@ module.exports = {
   // create a new user
   async createUser(req, res) {
     try {
-      const dbUserData = await User.create(req.body);
-      res.json(dbUserData);
+      const userData = await User.create(req.body);
+      res.json(userData);
     } catch (err) {
       res.status(500).json(err);
     }
@@ -34,7 +34,7 @@ module.exports = {
 // update user
   async updateUser(req, res) {
     try {
-      const dbUserData = await User.findOneAndUpdate(
+      const userData = await User.findOneAndUpdate(
         {
           _id: req.params.userId
         },
@@ -45,7 +45,7 @@ module.exports = {
         runValidators: true, new: true
         }
         );
-      res.json(dbUserData);
+      res.json(userData);
     } catch (err) {
       res.status(500).json(err);
     }
@@ -63,4 +63,40 @@ module.exports = {
       res.status(500).json(err);
     }
   },
+  // add friends
+  async addFriend(req, res){
+    try{
+      const friend = await User.findOneAndUpdate(
+        {_id: req.params.userId},
+        { $push: {friends: req.params.friendId}},
+        {new: true}
+        )
+        console.log(req.params.friendId.username)
+        if (!friend){
+          return res.status(404).json({message: "no friend with that Id exists"})
+        }
+        res.json(friend)
+    }
+    catch(err){res.status(500).json(err)}
+  },
+  // delete friend
+  async deleteFriend(req, res){
+    try{
+      const friend = await User.findOneAndUpdate(
+        {_id: req.params.userId},
+        { $pull: {friends: req.params.friendId}},
+        {new: true}
+        )
+        
+        if (!friend){
+          return res.status(404).json({message: "no friend with that Id exists"})
+        }
+        res.json("one friend deleted")
+    }
+    catch(err){res.status(500).json(err)}
+  }
+
 };
+
+
+

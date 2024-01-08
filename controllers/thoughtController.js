@@ -114,7 +114,7 @@ async deleteReaction(req, res) {
     res.json(`One reaction deleted`);
  } catch (err) {
     console.error(err);
-    res.status(500).json({ message: 'Server error deleting reaction' });
+    res.status(500).json({ message: 'Server error with deleting reaction' });
  }
 }
 };
