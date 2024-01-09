@@ -68,10 +68,10 @@ module.exports = {
     try{
       const friend = await User.findOneAndUpdate(
         {_id: req.params.userId},
-        { $push: {friends: req.params.friendId}},
+        { $push: {friends: req.params.friendId, username: req.body.username}},
         {new: true}
         )
-        console.log(req.params.friendId.username)
+       
         if (!friend){
           return res.status(404).json({message: "no friend with that Id exists"})
         }
